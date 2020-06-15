@@ -1,0 +1,44 @@
+{
+  "name": "wartemis",
+  "version": "1.0.2",
+  "description": "Package for creating a Wartemis bot or engine",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "lint": "tslint --project .",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublishOnly": "npm run lint && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Project-Wartemis/package-typescript.git"
+  },
+  "keywords": [
+    "wartemis",
+    "game",
+    "bot",
+    "engine",
+    "turn",
+    "based",
+    "turn-based"
+  ],
+  "author": "Robin de Bruin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Project-Wartemis/package-typescript/issues"
+  },
+  "homepage": "https://github.com/Project-Wartemis/package-typescript#readme",
+  "files": [
+    "dist/**/*"
+  ],
+  "devDependencies": {
+    "@types/websocket": "^1.0.0",
+    "tslint": "^6.1.2",
+    "tslint-etc": "^1.11.0",
+    "typescript": "^3.9.5"
+  },
+  "dependencies": {
+    "websocket": "^1.0.31"
+  }
+}
