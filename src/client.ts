@@ -1,6 +1,5 @@
 import ws from 'websocket';
 
-import { Config } from './config';
 import { Message, RegisterMessage } from './message/message';
 
 type MessageHandler = (raw: object) => void;
@@ -12,9 +11,11 @@ export class Client {
   private handlers: Record<string, MessageHandler> = {};
 
   constructor(
-    private config: Config
+    private game: string,
+    private name: string,
+    private type: string,
+    private endpoint: string = 'ws://api.wartemis.com/socket'
   ) {
-    this.config.endpoint = this.config.endpoint || 'ws://api.wartemis.com/socket';
     this.on('connected', this.register.bind(this));
   }
 
@@ -32,18 +33,16 @@ export class Client {
   }
 
   public start(): void {
-    if(!this.config) {
-      console.error('Client is not configured yet');
-    }
     if(this.started) {
-      console.error('Client start was already called');
+      console.error('Start was already called');
+      return;
     }
     this.started = true;
 
     const socket = new ws.client();
 
     socket.on('connectFailed', error => {
-      console.error(`Error when connecting to ${this.config.endpoint} : [${error}]`);
+      console.error(`Error when connecting to ${this.endpoint} : [${error}]`);
     });
 
     socket.on('connect', connection => {
@@ -56,15 +55,15 @@ export class Client {
       connection.on('message', this.handleMessage.bind(this));
     });
 
-    socket.connect(this.config.endpoint);
+    socket.connect(this.endpoint);
   }
 
   private register(): void {
     this.send({
       type: 'register',
-      clientType: this.config.type,
-      game: this.config.game,
-      name: this.config.name,
+      clientType: this.type,
+      game: this.game,
+      name: this.name,
     } as RegisterMessage);
   }
 

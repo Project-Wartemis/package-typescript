@@ -1,11 +1,13 @@
 import { Client } from './client';
-import { Config } from './config';
 
 export class Engine extends Client {
 
   constructor(
-    config: Config
+    game: string,
+    endpoint?: string
   ) {
-    super(config.setType('engine'));
+    super(game, game, 'engine', endpoint);
   }
+
+  // TODO provide functionality
 }
