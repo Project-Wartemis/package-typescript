@@ -1,6 +1,6 @@
 {
   "name": "wartemis",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Package for creating a Wartemis bot or engine",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
