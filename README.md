@@ -8,31 +8,47 @@ This provides an easy way to create a bot or an engine using typescript / javasc
 
 ## Usage
 
+1. Make a class that extends the Bot or Engine class
+2. Implement the required methods (see [API](#api))
+3. Call `start()` exactly once
+
+### JavaScript
+
+> const { Bot, Engine } = require('wartemis');
+
+### TypeScript
+
 > import { Bot, Engine } from 'wartemis';
 
 ## API
 
 ### Bot
 
-Method | Argument | Type | Description
+
+#### constructor(name, sendSilentState, endpoint)
+
+Argument | Type | Default | Description
 --- | --- | --- | ---
-constructor | game | string | The game your bot is made for
---- | name | string | The name of your bot
---- | sendSilentState | boolean | Whether or not your bot will receive state messages that don't expect an answer<br>Defaults to false
---- | endpoint | string | What endpoint to connect to<br>Defaults to ws://api.wartemis.com/socket
---- | returns | Bot | Constructing something returns an instance of that type
-onState | callback | function | The callback to be executed once a state is received
---- | returns | Bot | For method chaining
-onState.callback | state | object | The state
---- | move | boolean | If you are expected to move on this state
---- | game | number | The game id, this is public information and is sent to each bot in a game
---- | key | string | The bot id, this is private information and is unique for each bot in a game
---- | returns | object | The action your bot takes.
-onError | callback | function | The callback to be executed once an error is received
---- | returns | Bot | For method chaining
-onError.callback | error | string | The error message
-start | - | - | Connects and registers with the server
---- | returns | Bot | For method chaining
+name | string | - | The name of your bot
+sendSilentState | boolean | false | Whether or not your bot will receive state messages that don't expect an answer
+endpoint | string | ws://api.wartemis.com/socket | What endpoint to connect to
+
+#### handleError(error)
+
+Argument | Type | Description
+--- | --- | ---
+error | string | The error message
+
+#### handleState(state, move, game, key)
+
+Should return the action your bot takes
+
+Argument | Type | Description
+--- | --- | ---
+state | string | The game state
+move | boolean | If you are expected to move on this state
+game | string | The game id, this is public information and is sent to each bot in a game
+key | string | The bot id, this is private information and is unique for each bot in a game
 
 ### Engine
 
@@ -43,17 +59,36 @@ WIP
 ### JavaScript
 
 ```JavaScript
-new Bot('Tic Tac Toe', 'Test Bot')
-  .onError(console.error)
-  .onState(state => ({
-    position: state.board.indexOf(' ')
-  }))
-  .start();
+const { Bot } = require('wartemis');
+
+class BotTicTacToe extends Bot {
+
+  constructor() {
+    super('Tic Tac Toe', 'Demobot');
+  }
+
+  handleError(error) {
+    console.error(error);
+  }
+
+  handleState(state) {
+    console.log(state);
+    return {
+      position: state.board.indexOf(' ')
+    };
+  }
+
+}
+
+const bot = new BotTicTacToe();
+bot.start();
 ```
 
 ### TypeScript
 
 ```TypeScript
+import { Bot } from 'wartemis';
+
 interface State {
   board: string;
   symbol: string;
@@ -63,17 +98,27 @@ interface Action {
   position: number;
 }
 
-new Bot('Tic Tac Toe', 'Robbot')
-  .onError(console.error)
-  .onState(raw => {
-    const state: State = Object.assign({} as State, raw);
+class BotTicTacToe extends Bot {
+
+  constructor() {
+    super('Tic Tac Toe', 'Demobot');
+  }
+
+  handleError(error: string): void {
+    console.error(error);
+  }
+
+  handleState(state: State): Action {
     return {
       position: state.board.indexOf(' ')
-    } as Action;
-  })
-  .start();
+    };
+  }
+}
+
+const bot = new BotTicTacToe();
+bot.start();
 ```
 
 ## Example engine
 
-WIP
+> [See the implementation for Tic Tac Toe](https://github.com/Project-Wartemis/engine-tic-tac-toe)
