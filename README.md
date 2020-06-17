@@ -24,11 +24,11 @@ This provides an easy way to create a bot or an engine using typescript / javasc
 
 ### Bot
 
-
 #### constructor(name, sendSilentState, endpoint)
 
 Argument | Type | Default | Description
 --- | --- | --- | ---
+game | string | - | The game your bot is made for
 name | string | - | The name of your bot
 sendSilentState | boolean | false | Whether or not your bot will receive state messages that don't expect an answer
 endpoint | string | ws://api.wartemis.com/socket | What endpoint to connect to
