@@ -8,8 +8,14 @@ export interface ActionMessage extends Message {
   action: object;
 }
 
+export interface ActionMessageEngine extends Message {
+  game: number;
+  player: string;
+  action: object;
+}
+
 export interface ErrorMessage extends Message {
-  content: string;
+  message: string;
 }
 
 export interface RegisterMessage extends Message {
@@ -33,7 +39,7 @@ export interface StateMessage extends Message {
   state: object;
 }
 
-export interface StateEngineMessage extends Message {
+export interface StateMessageEngine extends Message {
   game: number;
   turn: number;
   players: Array<string>;

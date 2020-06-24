@@ -1,6 +1,6 @@
 import ws from 'websocket';
 
-import { Message, RegisterMessage } from './message/message';
+import { Message, RegisterMessage } from './message';
 
 type MessageHandler = (raw: object) => void;
 

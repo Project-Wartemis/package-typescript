@@ -1,5 +1,5 @@
 import { Client } from './client';
-import { ActionMessage, ErrorMessage, StateMessage } from './message/message';
+import { ActionMessage, ErrorMessage, StateMessage } from './message';
 
 export abstract class Bot extends Client {
 
@@ -21,7 +21,7 @@ export abstract class Bot extends Client {
   private registerErrorHandler(): void {
     super.on('error', (raw: object) => {
       const message: ErrorMessage = Object.assign({} as ErrorMessage, raw);
-      this.handleError(message.content);
+      this.handleError(message.message);
     });
   }
 
@@ -42,5 +42,4 @@ export abstract class Bot extends Client {
       }
     });
   }
-
 }
