@@ -14,7 +14,7 @@ export class Client {
     private game: string,
     private name: string,
     private type: string,
-    private endpoint: string = 'wss://api.wartemis.com/api/socket'
+    private endpoint: string = 'wss://wartemis.vectordungeon.com/api/socket'
   ) {
     this.on('connected', this.register.bind(this));
   }
