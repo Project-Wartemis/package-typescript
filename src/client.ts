@@ -67,7 +67,7 @@ export class Client {
     } as RegisterMessage);
   }
 
-  private handleMessage(iMessage: ws.IMessage): void {
+  private handleMessage(iMessage: ws.Message): void {
     if(iMessage.type !== 'utf8') {
       return;
     }
